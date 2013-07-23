@@ -1,0 +1,15 @@
+.console_Nom,.console_Texte
+  {
+  min-width:40em;
+	background-color:Black;
+	border:1px solid Red;
+	overflow:auto;
+	font-size:0.8em;
+	color:Yellow;	
+	}
+.console_Texte{min-height:10em;}
+.console_Nom{cursor:pointer;}
+
+//fonction inspect
+.gestLib_varNom{color:red}
+.gestLib_varPtr{color:white}
