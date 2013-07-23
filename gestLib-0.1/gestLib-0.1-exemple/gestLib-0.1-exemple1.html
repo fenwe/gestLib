@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<head><title>gestLib-0.1</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<link rel="stylesheet" href="../gestLib-0.1.css" type="text/css" media="all">
+<style>
+@charset "utf-8";
+html{font-size:100%;}
+body{font-size:1em;font-family:sans-serif;}
+
+h1,h2,h3,h4,h5,h6{margin:0; padding:0;font-weight:bold;font-size:1em;}
+h1{font-size:1.70em;color:#000;text-align:center;}
+h2{font-size:1.40em;}
+h2,h2 a,h2 a:focus,h2 a:hover,h2 a:active{color:#003;}
+h3{font-size:1.20em;}
+div{margin:0;padding:0;}
+</style>
+<!-- lib tiers -->
+<!-- lib perso -->
+<script type="text/javascript" src="../gestLib-0.1.js"> </script>
+
+<title>GestLib-0.1</title>
+
+</head>
+<body>
+<div id="page">
+<h1>gestLib-0.1</h1>
+<p>
+Le code html des consoles doit etre statique.<br>
+<b>L'utilisation des consoles n'est pas obligatoires.</b> Pour une console créer dynamiquement et indépendante d'une librairie regarder plutot du cote de gestConsoles-0.2.js
+</p>
+<div id="gestLib_Support">
+  <span id="gestLib_Nom"		class="console_Nom"		onclick="javascript:gestLib.switchShow('gestLib');" title="afficher/masquer">Nom</span>
+	<span id="gestLib_Clear"		class="console_Nom"		onclick="javascript:gestLib.clear('gestLib');" title="effacer le contenu de la console">Effacer</span>
+	<span id="gestLib_eval"		class="console_Nom"		onclick="javascript:eval(gestLib.libs['gestLib'].evaluer());" title="evaluer le contenu de la console">evaluer</span>
+	<span id="gestLib_tableau"	class="console_Nom"		onclick="javascript:gestLib.write({lib:'gestLib',txt:gestLib.tableau()});" title="Affiche un tableau des librairies chargés">liste</span>
+	<div id="gestLib_Texte"		class="console_Texte">Texte</div>
+</div>
+<br>
+<div id="consoleEval_Support">
+	<span id="consoleEval_Nom"	class="console_Nom"		onclick="javascript:gestLib.switchShow('consoleEval');" title="afficher/masquer">Nom</span>
+	<span id="consoleEval_Clear"	class="console_Nom"		onclick="javascript:gestLib.clear('consoleEval');" title="effacer le contenu de la console">Effacer</span>
+	<span id="consoleEval_eval"	class="console_Nom"		onclick="javascript:eval(gestLib.libs['consoleEval'].evaluer());" title="evaluer le contenu de la console">evaluer</span>
+	<br><textarea  id="consoleEval_Texte" class="console_Texte"></textarea>
+</div>
+
+</div><!--#page-->
+
+<script type="text/javascript">
+
+/*****************************
+exemple d'appel d'une librairie
+********************************/
+gestLib.loadLib(
+	{
+	nom:'gestLib'									// nom arbitraire
+	,HTMLId:'gestLib'								// id de la div. DOIT etre précédement créer
+	,ver:0.1										// indication de la version
+	,libType:'perso'								// type 'perso'|'tiers'
+	,description:'console pour la lib gestionLibrairie'	//
+	,isConsole:0									//creation de la console?(defaut:0)
+	,isVisible:0									//console visible a la creation?(defaut:1)
+	,url:'http://legral.fr/intersites/lib/perso/js/gestLib/gestLib-0.1/'	// site de la lib
+	});
+gestLib.end('gestLib');
+
+/*functions de gestLib*/
+//gestLib.end('gestLib');//indiquer que le chargement de la librairie est terminer; calcul le temps de lecture du script (normalement 0). UNIQUEMENT UTLISER POUR LES LIB TIERS qui n'appelle pas cette fonction nativement.
+
+
+/*gestion des consoles associé au lib*/
+
+gestLib.setConsole('gestLib');	//activer la console de la lib
+gestLib.clear('gestLib');	// nettoyer le contenu de la console
+gestLib.write({lib:'gestLib',txt:'gestLib Crée'});	
+gestLib.write({lib:'gestLib',txt:'Nombre totale de librairie chargée:'+gestLib.libNb+'<br>'});// ecrire du texte arbitraire dans une console
+gestLib.write({lib:'gestLib',txt:gestLib.tableau()});	// ecrire un tableau resumant l'etat des lib chargées
+
+gestLib.write({lib:'gestLib',txt:'//fonction inspect:'});
+gestLib.inspect({lib:'gestLib',varNom:'gestLib_date.getTime()',varPtr:gestLib_date.getTime()});	//renvoie le nom et la valeur d'une variable avec colorisation CSS
+
+
+/***** consoleEval *****
+// charge une librairie pour la fonction console uniquement
+************************/
+gestLib.loadLib({nom:'consoleEval',ver:0,description:"Console d'evaluation pour debuggage",libType:'perso',isConsole:1,isVisible:1,HTMLId:'consoleEval',url:''});
+gestLib.setConsole('consoleEval');	//activer une console
+
+
+//gestLib.display('consoleEval',0);	//cacher une console
+//gestLib.display('consoleEval',1);	//afficher une console (css:display)
+
+//gestLib.hide   ('consoleEval');	//rend invisible une console (css:visible:0)
+//gestLib.show   ('consoleEval');	//rend visible une console (css:visible:1)
+//gestLib.switcShow('consoleEval');	//inverse l'etat du css visible (si 1->0;si 0->1)
+
+
+gestLib.write({lib:'consoleEval',txt:'//Cliquer sur eval pour evaluer le code contenu dans ce textarea'});
+gestLib.write({lib:'consoleEval',txt:'alert("Vous avez cliquer sur eval");'});
+
+gestLib.inspect({lib:'consoleEval',varNom:'gestLib_date.getTime()',varPtr:gestLib_date.getTime()});	//renvoie le nom et la valeur d'une variable avec colorisation CSS
+
+
+//gestLib.destruct('consoleEval');	// DETRUIRE 1 lib
+//gestLib.destruct();// destruction toutes les lib
+
+</script>
+</body></html>
